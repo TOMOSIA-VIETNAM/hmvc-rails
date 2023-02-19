@@ -1,0 +1,48 @@
+# frozen_string_literal: true
+<%= add_file_traces %>
+module ErrorHandler
+  module Exception
+    BAD_REQUEST           = { status: 400, code: :bad_request }.freeze
+    UNAUTHORIZED          = { status: 401, code: :unauthorized }.freeze
+    FORBIDDEN             = { status: 403, code: :forbidden }.freeze
+    NOT_FOUND             = { status: 404, code: :not_found }.freeze
+    CONFLICT              = { status: 409, code: :conflict }.freeze
+    UNPROCESSABLE_ENTITY  = { status: 422, code: :unprocessable_entity }.freeze
+    INTERNAL_SERVER_ERROR = { status: 500, code: :internal_server_error }.freeze
+    NOT_IMPLEMENTED       = { status: 501, code: :not_implemented }.freeze
+    SERVICE_UNAVAILABLE   = { status: 503, code: :service_unavailable }.freeze
+
+    def get_status_code(exception)
+      case exception
+      when Exception::BadRequest, Exception::ResourceInvalid, ActionController::BadRequest
+        BAD_REQUEST
+      when Exception::SecurityError, Exception::Unauthorized
+        UNAUTHORIZED
+      when Exception::Forbidden, ActionController::InvalidAuthenticityToken
+        FORBIDDEN
+      when ActiveRecord::RecordNotFound
+        NOT_FOUND
+      when ActiveRecord::RecordNotUnique
+        CONFLICT
+      when Exception::UnprocessableEntity
+        UNPROCESSABLE_ENTITY
+      when Exception::NotImplemented
+        NOT_IMPLEMENTED
+      else
+        INTERNAL_SERVER_ERROR
+      end
+    end
+
+    class BadRequest < StandardError; end
+    class ResourceInvalid < StandardError; end
+    class SecurityError < StandardError; end
+    class Unauthorized < StandardError; end
+    class Forbidden < StandardError; end
+    class NotFound < StandardError; end
+    class ResourceNotFound < StandardError; end
+    class Conflict < StandardError; end
+    class UnprocessableEntity < ActiveRecord::RecordInvalid; end
+    class InternalServerError < StandardError; end
+    class NotImplemented < StandardError; end
+  end
+end

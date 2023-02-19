@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+<%= add_file_traces %>
+class ApplicationOperation
+  attr_reader :params, :form, :current_user
+
+  def initialize(params, data = {})
+    @params       = params
+    @form         = data[:form]
+    @current_user = data[:current_user]
+  end
+end
