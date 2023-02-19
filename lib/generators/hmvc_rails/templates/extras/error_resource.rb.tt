@@ -1,0 +1,31 @@
+# frozen_string_literal: true
+
+<%= add_file_traces %>
+module Extras
+  class ErrorResource
+    include Exception
+
+    attr_reader :status, :code, :message
+
+    def initialize(exception)
+      hash     = get_status_code(exception)
+      @code    = hash[:code]
+      @status  = hash[:status]
+      @message = exception.message
+    end
+
+    def as_json
+      return { code: code, field_error: field_errors } if status == UNPROCESSABLE_ENTITY[:status]
+
+      { code: code, message: message }
+    end
+
+    private
+
+    def field_errors
+      JSON.parse(message).map do |field, messages|
+        messages.map { |message_detail| { name: field, message: message_detail } }
+      end.flatten
+    end
+  end
+end

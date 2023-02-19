@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+<%= add_file_traces %>
+module Extras
+  module ErrorResponse
+    extend ActiveSupport::Concern
+
+    included do
+      rescue_from StandardError do |exception|
+        handle(exception)
+      end
+
+      private
+
+      def handle(exception)
+        error = ErrorResource.new(exception)
+        render json: error.as_json, status: error.status
+      end
+    end
+  end
+end
