@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 <%= add_file_traces %>
 Hmvc::Rails.configure do |config|
   # The controller files's parent class of controller. Default is ApplicationController

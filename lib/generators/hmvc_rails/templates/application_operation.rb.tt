@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 <%= add_file_traces %>
 class ApplicationOperation
   attr_reader :params, :form, :current_user
