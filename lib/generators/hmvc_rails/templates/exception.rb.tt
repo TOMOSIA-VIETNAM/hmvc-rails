@@ -35,15 +35,25 @@ module ErrorHandler
     end
 
     class BadRequest < StandardError; end
+
     class ResourceInvalid < StandardError; end
+
     class SecurityError < StandardError; end
+
     class Unauthorized < StandardError; end
+
     class Forbidden < StandardError; end
+
     class NotFound < StandardError; end
+
     class ResourceNotFound < StandardError; end
+
     class Conflict < StandardError; end
+
     class UnprocessableEntity < ActiveRecord::RecordInvalid; end
+
     class InternalServerError < StandardError; end
+
     class NotImplemented < StandardError; end
   end
 end
