@@ -1,10 +1,10 @@
-# HMVC
+# HMVC-RAILS
 
 ## Summary
 
-- HMVC is the high-level model of MVC (MVC high-level structure)
+- hmvc-rails is the high-level model of MVC (MVC high-level structure)
 
-- HMVC makes it easy to manage source code and develop projects
+- hmvc-rails makes it easy to manage source code and develop projects
 
 ## Features
 
