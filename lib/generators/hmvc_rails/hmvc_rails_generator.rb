@@ -7,7 +7,7 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
 
   class_option :action, type: :array, default: Hmvc::Rails.configuration.action, aliases: "-a"
   class_option :form, type: :array, default: Hmvc::Rails.configuration.form
-  class_option :parent, type: :string, default: Hmvc::Rails.configuration.parent
+  class_option :parent_controller, type: :string, default: Hmvc::Rails.configuration.parent_controller
   class_option :skip_form, type: :boolean, default: false
   class_option :skip_view, type: :boolean, default: false
 
@@ -26,7 +26,7 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
     validate_params
     validate_form_option
     validate_action_option
-    validate_parent_option
+    validate_parent_controller_option
     validate_skip_form_option
     validate_skip_view_option
   end
@@ -83,7 +83,7 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
 
   def validate_params
     option_params = argv.select { |arg| arg.include?("-") }
-    wrong_options = option_params - %w[--action --form --parent --skip-form --skip-view -a]
+    wrong_options = option_params - %w[--action --form --parent-controller --skip-form --skip-view -a]
     show_error_message("Invalid optional arguments '#{wrong_options.join(", ")}'") if wrong_options.present?
   end
 
@@ -97,15 +97,15 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
     show_error_message("Optional '--form' is duplicated") if form_options.size > 1
   end
 
-  def validate_parent_option
-    parent_options = argv.select { |arg| arg == "--parent" }
-    show_error_message("Optional '--parent' is duplicated") if parent_options.size > 1
-    index = argv.index("--parent")
+  def validate_parent_controller_option
+    parent_options = argv.select { |arg| arg == "--parent-controller" }
+    show_error_message("Optional '--parent-controller' is duplicated") if parent_options.size > 1
+    index = argv.index("--parent-controller")
     return unless index
 
     if argv[index + 1].blank? || argv[index + 1].start_with?("-") ||
        (argv[index + 2] && !argv[index + 2].start_with?("-"))
-      show_error_message("Option '--parent' is not valid")
+      show_error_message("Option '--parent-controller' is not valid")
     end
   end
 

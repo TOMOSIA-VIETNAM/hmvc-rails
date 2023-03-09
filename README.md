@@ -98,10 +98,10 @@ rails g hmvc_rails admin -a index show list detail selection
 rails g hmvc_rails admin -a index show list detail selection --form index show list
 ```
 
-##### 3. If you want to create with parent controller other than default. You can use option `--parent`
+##### 3. If you want to create with parent controller other than default. You can use option `--parent-controller`
 
 ```
-rails g hmvc_rails admin --parent PersonController
+rails g hmvc_rails admin --parent-controller PersonController
 ```
 
 ##### 4. If you want to skip creating the forms file when generate. You can use option `--skip-form`
@@ -147,7 +147,7 @@ If you want to change the default value when creating the file, please uncomment
 
 Hmvc::Rails.configure do |config|
   # The controller files's parent class of controller. Default is ApplicationController
-  # config.parent = "ApplicationController"
+  # config.parent_controller = "ApplicationController"
 
   # Method when creating the controller files. Default is %w[index show new create edit update destroy]
   # config.action = %w[index show new create edit update destroy]

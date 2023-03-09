@@ -3,7 +3,7 @@
 <%= add_file_traces %>
 Hmvc::Rails.configure do |config|
   # The controller files's parent class of controller. Default is ApplicationController
-  # config.parent = "ApplicationController"
+  # config.parent_controller = "ApplicationController"
 
   # Method when creating the controller files. Default is %w[index show new create edit update destroy]
   config.action = %w[index show create update destroy]
