@@ -122,13 +122,13 @@ Or change configuration `config.view = %w[]`
 
 ##### 6. Using error handling module if it's an API project
 
-- config/application.rb
+_config/application.rb_
 
 ```ruby
 config.autoload_paths << Rails.root.join('lib')
 ```
 
-- application_controller.rb
+_application_controller.rb_
 
 ```ruby
 include ErrorHandler::ErrorResponse
@@ -138,35 +138,38 @@ include ErrorHandler::ErrorResponse
 
 If you want to change the default value when creating the file, please uncomment and update
 
-- config/initializers/hmvc.rb
+_config/initializers/hmvc.rb_
 
 ```ruby
 # frozen_string_literal: true
+
 # Created at: 2023-02-18 22:30 +0700
 # Creator: thuc.phan@tomosia.com
 
-Hmvc::Rails.configure do |config|
-  # The controller files's parent class of controller. Default is ApplicationController
-  # config.parent_controller = "ApplicationController"
+if Rails.env.development?
+  Hmvc::Rails.configure do |config|
+    # The controller files's parent class of controller. Default is ApplicationController
+    # config.parent_controller = "ApplicationController"
 
-  # Method when creating the controller files. Default is %w[index show new create edit update destroy]
-  # config.action = %w[index show new create edit update destroy]
+    # Method when creating the controller files. Default is %w[index show new create edit update destroy]
+    # config.action = %w[index show new create edit update destroy]
 
-  # Method when creating the view files. Default is %w[index show new edit]
-  # config.view = %w[index show new edit]
+    # Method when creating the view files. Default is %w[index show new edit]
+    # config.view = %w[index show new edit]
 
-  # The form files's parent class. Default is ApplicationForm
-  # config.parent_form = "ApplicationForm"
+    # The form files's parent class. Default is ApplicationForm
+    # config.parent_form = "ApplicationForm"
 
-  # Method when creating the form files. Default is %w[new create edit update]
-  # config.form = %w[new create edit update]
+    # Method when creating the form files. Default is %w[new create edit update]
+    # config.form = %w[new create edit update]
 
-  # The operation files's parent class. Default is ApplicationOperation
-  # config.parent_operation = "ApplicationOperation"
+    # The operation files's parent class. Default is ApplicationOperation
+    # config.parent_operation = "ApplicationOperation"
 
-  # Save author name and timestamp to file. Default is true
-  # config.file_traces = true
-end if Rails.env.development?
+    # Save author name and timestamp to file. Default is true
+    # config.file_traces = true
+  end
+end
 ```
 
 ## Contributing
@@ -231,11 +234,11 @@ rails g hmvc_rails admin
 - Code convention check
 
 ```
-➜  hmvc-rails git:(main) ✗ rubocop
-Inspecting 11 files
-...........
+➜  hmvc-rails git:(main) rubocop
+Inspecting 14 files
+..............
 
-11 files inspected, no offenses detected
+14 files inspected, no offenses detected
 ```
 
 - Run unit test
@@ -250,4 +253,46 @@ Run options: --seed 47420
 
 Finished in 0.619135s, 20.9970 runs/s, 206.7400 assertions/s.
 13 runs, 128 assertions, 0 failures, 0 errors, 0 skips
+```
+
+## Configure rubocop
+
+If your project used rubocop for code convention. You can add the below configuration for some conventional hmvc-rails
+
+_.rubocop.yml_
+
+```ruby
+require: rubocop/cop/hmvc_rails_cops
+
+HmvcRails/OperatingStyle:
+  Enabled: true
+  Include:
+    - app/operations/**/*.rb
+
+HmvcRails/FormalStyle:
+  Enabled: true
+  Include:
+    - app/forms/**/*.rb
+```
+
+Example hmvc-rails offenses
+
+```
+➜  demo git:(master) ✗ rubocop
+Inspecting 48 files
+......C......C..................................
+
+Offenses:
+
+app/forms/admin/new_form.rb:6:1: C: HmvcRails/FormalStyle: The form filename does not match the desired format
+class Admin::NewFormm < ApplicationForm ...
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/operations/admin/new_operation.rb:6:1: C: HmvcRails/OperatingStyle: The operation filename does not match the desired format
+class Admin::NewOperationn < ApplicationOperation ...
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/operations/admin/new_operation.rb:7:3: C: HmvcRails/OperatingStyle: Method works in "call" without prefix "step_"
+  def call ...
+  ^^^^^^^^
+
+48 files inspected, 3 offenses detected
 ```
