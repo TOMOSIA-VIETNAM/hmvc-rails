@@ -26,11 +26,15 @@ end
 
 Then execute
 
-    $ bundle install
+```
+bundle install
+```
 
 And run
 
-    $ rails g hmvc_rails:install
+```
+rails g hmvc_rails:install
+```
 
 ```
 create  config/initializers/hmvc.rb
@@ -40,7 +44,9 @@ create  app/forms/application_form.rb
 
 If it's an API project then you can run
 
-    $ rails g hmvc_rails:install --api
+```
+rails g hmvc_rails:install --api
+```
 
 ```
 create  config/initializers/hmvc.rb
