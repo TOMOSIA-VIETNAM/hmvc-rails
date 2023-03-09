@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require "rubocop"
 require_relative "rails/version"
-require_relative "../rubocop/cop/hmvc_rails_cops"
 
 module Hmvc
   module Rails
