@@ -2,5 +2,4 @@
 
 <%= add_file_traces %>
 class <%= class_name %>::<%= @_action.humanize %>Form < <%= Hmvc::Rails.configuration.parent_form %>
-  attributes :id
 end

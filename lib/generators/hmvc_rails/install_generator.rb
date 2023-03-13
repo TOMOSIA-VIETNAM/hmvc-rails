@@ -21,24 +21,24 @@ module HmvcRails
       private
 
       def copy_initializers_config
-        file_selected = options[:api] ? "hmvc_rails_api.rb" : "hmvc_rails.rb"
+        file_selected = options[:api] ? "configures/hmvc_rails_api.rb" : "configures/hmvc_rails.rb"
         template file_selected, "config/initializers/hmvc_rails.rb"
       end
 
       def copy_application_operator
-        template "application_operation.rb", "app/operations/application_operation.rb"
+        template "operations/application_operation.rb", "app/operations/application_operation.rb"
       end
 
       def copy_application_form
-        template "application_form.rb", "app/forms/application_form.rb"
+        template "forms/application_form.rb", "app/forms/application_form.rb"
       end
 
       def copy_api_error_handler
         return unless options[:api]
 
-        template "exception.rb", "lib/error_handler/exception.rb"
-        template "error_resource.rb", "lib/error_handler/error_resource.rb"
-        template "error_response.rb", "lib/error_handler/error_response.rb"
+        template "errors/exception.rb", "lib/error_handler/exception.rb"
+        template "errors/error_resource.rb", "lib/error_handler/error_resource.rb"
+        template "errors/error_response.rb", "lib/error_handler/error_response.rb"
       end
 
       def add_file_traces

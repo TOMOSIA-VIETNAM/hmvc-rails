@@ -5,7 +5,7 @@ require "rails/generators"
 class HmvcRailsGenerator < Rails::Generators::NamedBase
   source_root File.expand_path("templates", __dir__)
 
-  class_option :action, type: :array, default: Hmvc::Rails.configuration.action, aliases: "-a"
+  class_option :action, type: :array, default: Hmvc::Rails.configuration.action
   class_option :form, type: :array, default: Hmvc::Rails.configuration.form
   class_option :parent_controller, type: :string, default: Hmvc::Rails.configuration.parent_controller
   class_option :skip_form, type: :boolean, default: false
@@ -32,13 +32,14 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
   end
 
   def create_controller
-    template "controller.rb", File.join("app/controllers", class_path.join("/"), "#{file_name}_controller.rb")
+    template "controllers/controller.rb",
+             File.join("app/controllers", class_path.join("/"), "#{file_name}_controller.rb")
   end
 
   def create_operation
     options[:action].each do |action|
       @_action = action
-      template "operation.rb", File.join("app/operations", file_path, "#{action}_operation.rb")
+      template "operations/operation.rb", File.join("app/operations", file_path, "#{action}_operation.rb")
     end
   end
 
@@ -50,7 +51,7 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
 
     forms.each do |action|
       @_action = action
-      template "form.rb", File.join("app/forms", file_path, "#{action}_form.rb")
+      template "forms/form.rb", File.join("app/forms", file_path, "#{action}_form.rb")
     end
   end
 
@@ -69,7 +70,7 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
   def copy_view_template(views, view_engine)
     views.each do |action|
       @_action = action
-      template "view.#{view_engine}", File.join("app/views", file_path, "#{action}.html.#{view_engine}")
+      template "views/view.#{view_engine}", File.join("app/views", file_path, "#{action}.html.#{view_engine}")
     end
   end
 
@@ -132,16 +133,15 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
   end
 
   def path_notes(action)
-    url = "#{class_path.join("/")}/#{file_name}"
     case action
-    when "index" then "# [GET] #{url}"
-    when "show" then "# [GET] #{url}/:id"
-    when "new" then "# [GET] #{url}/new"
-    when "edit" then "# [GET] #{url}/:id/edit"
-    when "create" then "# [POST] #{url}"
-    when "update" then "# [PUT] #{url}/:id"
-    when "destroy" then "# [DELETE] #{url}/:id"
-    else "# [METHOD] #{url}/..."
+    when "index" then "# [GET]..."
+    when "show" then "# [GET]..."
+    when "new" then "# [GET]..."
+    when "edit" then "# [GET]..."
+    when "create" then "# [POST]..."
+    when "update" then "# [PUT]..."
+    when "destroy" then "# [DELETE]..."
+    else "# [METHOD]..."
     end
   end
 

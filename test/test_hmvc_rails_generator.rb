@@ -73,39 +73,35 @@ class TestHmvcRailsGenerator < Rails::Generators::TestCase
     assert_file "app/forms/admin/create_form.rb", /class Admin::CreateForm < ApplicationForm/
     assert_file "app/forms/admin/edit_form.rb", /class Admin::EditForm < ApplicationForm/
     assert_file "app/forms/admin/update_form.rb", /class Admin::UpdateForm < ApplicationForm/
-    assert_file "app/forms/admin/new_form.rb", /attributes :id/
-    assert_file "app/forms/admin/create_form.rb", /attributes :id/
-    assert_file "app/forms/admin/edit_form.rb", /attributes :id/
-    assert_file "app/forms/admin/update_form.rb", /attributes :id/
   end
 
   def test_form_template_is_generated_when_form_and_action_match
-    run_generator %w[admin -a=index --form=index]
+    run_generator %w[admin --action=index --form=index]
     assert_file "app/forms/admin/index_form.rb"
   end
 
   def test_form_template_is_not_generated_when_form_and_action_mismatch
-    run_generator %w[admin -a=index --form=show]
+    run_generator %w[admin --action=index --form=show]
     assert_no_file "app/forms/admin/index_form.rb"
   end
 
   def test_generator_with_skip_form_option
-    run_generator %w[admin -a=new --skip-form]
+    run_generator %w[admin --action=new --skip-form]
     assert_no_file "app/forms/admin/new_form.rb"
   end
 
   def test_generator_with_skip_view_option
-    run_generator %w[admin -a=new --skip-view]
+    run_generator %w[admin --action=new --skip-view]
     assert_no_file "app/views/admin/new.html.erb"
   end
 
   def test_view_template_is_generated_when_view_and_action_match
-    run_generator %w[admin -a=index]
+    run_generator %w[admin --action=index]
     assert_file "app/views/admin/index.html.erb"
   end
 
   def test_view_template_is_not_generated_when_view_and_action_mismatch
-    run_generator %w[admin -a=create]
+    run_generator %w[admin --action=create]
     assert_no_file "app/views/admin/create.html.erb"
   end
 end

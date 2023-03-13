@@ -14,8 +14,8 @@ module RuboCop
         def on_def(node)
           return unless node.children.first == :call
 
-          node.body.to_a.each do |ats|
-            next if ats.children.last.start_with?("step_")
+          node.body.to_a.compact.each do |ats|
+            next if ats.start_with?("step_")
 
             add_offense(node, message: "Method works in \"call\" without prefix \"step_\"")
           end

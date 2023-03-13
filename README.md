@@ -92,7 +92,7 @@ create  app/views/admin/edit.html.erb
 
 ### Options
 
-##### 1. If you want to create with action other than default. You can use option `--action` or `-a`
+##### 1. If you want to create with action other than default. You can use option `--action`
 
 ```
 rails g hmvc_rails admin -a index show list detail selection
