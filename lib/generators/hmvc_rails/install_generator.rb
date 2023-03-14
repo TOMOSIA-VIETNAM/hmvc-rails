@@ -18,7 +18,8 @@ module HmvcRails
         copy_application_form
         copy_validator
         copy_api_error_handler
-        add_config_api_error_handler
+        add_config_api_error_response
+        add_api_error_response
       end
 
       private
@@ -49,20 +50,31 @@ module HmvcRails
         template "extras/error_response.rb", "lib/hmvc_rails/extras/error_response.rb"
       end
 
-      def add_config_api_error_handler
+      # rubocop:disable Layout/LineLength
+      def add_config_api_error_response
         return if Rails.root.blank? || !options[:api] || behavior == :revoke
 
         file_path = Rails.root.join("config", "application.rb")
-        inject_into_file file_path, after: "class Application < Rails::Application\n" do
-          "    # This setting to use the error handler of hmvc-rails
-    config.eager_load_paths << Rails.root.join('lib', 'hmvc_rails')\n\n"
-        end
-
-        file_path = Rails.root.join("app", "controllers", "application_controller.rb")
-        inject_into_file file_path, after: "ApplicationController < ActionController::API\n" do
-          "  include Extras::ErrorResponse\n"
+        if File.foreach(file_path).grep(/Application < Rails::Application/).any?
+          inject_into_file file_path, "    # This setting to use the error handler of hmvc-rails\n    config.eager_load_paths << Rails.root.join('lib', 'hmvc_rails')\n\n", after: "Application < Rails::Application\n"
+        else
+          puts "Warning: The hmvc_rails module could not be automatically loaded because the \"Application < Rails::Application\" flag was not found"
+          puts "Please manually add `config.eager_load_paths << Rails.root.join('lib', 'hmvc_rails')` to your `config/application.rb` to use hmvc-rails error response"
         end
       end
+
+      def add_api_error_response
+        return if Rails.root.blank? || !options[:api] || behavior == :revoke
+
+        file_path = Rails.root.join("app", "controllers", "application_controller.rb")
+        if File.foreach(file_path).grep(/ApplicationController < ActionController::API/).any?
+          inject_into_file file_path, "  include Extras::ErrorResponse\n", after: "ApplicationController < ActionController::API\n"
+        else
+          puts "Warning: The error response module could not be automatically added because the \"ApplicationController < ActionController::API\" flag was not found"
+          puts "Please manually add `include Extras::ErrorResponse` to your application_controller.rb to use hmvc-rails error response"
+        end
+      end
+      # rubocop:enable Layout/LineLength
 
       def add_file_traces
         "# Created at: #{Time.now.strftime("%Y-%m-%d %H:%M %z")}\n# Creator: #{`git config user.email`}"

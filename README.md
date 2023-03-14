@@ -101,13 +101,13 @@ create  app/views/admin/edit.html.erb
 ##### 1. If you want to create with action other than default. You can use option `--action`
 
 ```
-rails g hmvc_rails admin -a index show list detail selection
+rails g hmvc_rails admin --action index show list detail selection
 ```
 
 ##### 2. If you want to create with form action other than default. You can use option `--form`
 
 ```
-rails g hmvc_rails admin -a index show list detail selection --form index show list
+rails g hmvc_rails admin --action index show list detail selection --form index show list
 ```
 
 ##### 3. If you want to create with parent controller other than default. You can use option `--parent-controller`

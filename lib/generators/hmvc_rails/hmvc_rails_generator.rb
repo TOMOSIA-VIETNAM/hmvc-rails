@@ -49,7 +49,7 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
     return if options[:skip_form] || options[:form].blank?
 
     forms = options[:form] & options[:action]
-    return puts "Warn: No forms created! Form and action controller does mismatch" if forms.blank?
+    return puts "Warning: No forms created! Form and action controller does mismatch" if forms.blank?
 
     forms.each do |action|
       @_action = action
@@ -61,7 +61,7 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
     return if options[:skip_view] || Hmvc::Rails.configuration.view.blank?
 
     views = Hmvc::Rails.configuration.view & options[:action]
-    return puts "Warn: No views created! View and action controller does mismatch" if views.blank?
+    return puts "Warning: No views created! View and action controller does mismatch" if views.blank?
 
     view_engine = Rails.application&.config&.generators&.options&.dig(:rails, :template_engine) || "erb"
     copy_view_template(views, view_engine)
@@ -86,12 +86,12 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
 
   def validate_params
     option_params = argv.select { |arg| arg.include?("-") }
-    wrong_options = option_params - %w[--action --form --parent-controller --skip-form --skip-view -a]
+    wrong_options = option_params - %w[--action --form --parent-controller --skip-form --skip-view]
     show_error_message("Invalid optional arguments '#{wrong_options.join(", ")}'") if wrong_options.present?
   end
 
   def validate_action_option
-    action_options = argv.select { |arg| %w[--action -a].include?(arg) }
+    action_options = argv.select { |arg| arg == "--action" }
     show_error_message("Optional '--action' is duplicated") if action_options.size > 1
   end
 
