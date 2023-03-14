@@ -40,6 +40,8 @@ rails g hmvc_rails:install
 create  config/initializers/hmvc.rb
 create  app/operations/application_operator.rb
 create  app/forms/application_form.rb
+create  app/validators/uniqueness_validator.rb
+create  app/validators/email_validator.rb
 ```
 
 If it's an API project then you can run
@@ -49,12 +51,16 @@ rails g hmvc_rails:install --api
 ```
 
 ```
-create  config/initializers/hmvc.rb
-create  app/operations/application_operator.rb
+create  config/initializers/hmvc_rails.rb
+create  app/operations/application_operation.rb
 create  app/forms/application_form.rb
-create  lib/error_handler/exception.rb
-create  lib/error_handler/error_resource.rb
-create  lib/error_handler/error_response.rb
+create  app/validators/uniqueness_validator.rb
+create  app/validators/email_validator.rb
+create  lib/hmvc_rails/extras/exception.rb
+create  lib/hmvc_rails/extras/error_resource.rb
+create  lib/hmvc_rails/extras/error_response.rb
+insert  config/application.rb
+insert  app/controllers/application_controller.rb
 ```
 
 ## Usage
@@ -126,20 +132,6 @@ rails g hmvc_rails admin --skip-view
 
 Or change configuration `config.view = %w[]`
 
-##### 6. Using error handling module if it's an API project
-
-_config/application.rb_
-
-```ruby
-config.autoload_paths << Rails.root.join('lib')
-```
-
-_application_controller.rb_
-
-```ruby
-include ErrorHandler::ErrorResponse
-```
-
 ## Configuration
 
 If you want to change the default value when creating the file, please uncomment and update
@@ -178,6 +170,14 @@ if Rails.env.development?
 end
 ```
 
+## Rollback generator
+
+If you want to rollback the hmvc-rails generator. You can run command
+
+```
+rails d hmvc_rails controller_name
+```
+
 ## Contributing
 
   - Thuc Phan T. thuc.phan@tomosia.com
@@ -202,14 +202,17 @@ A company that creates new value together with customers and lights the light of
 ```ruby
 group :development do
   gem 'hmvc-rails', path: '../../Projects/hmvc-rails'
+  gem 'pry'
 end
 ```
 
-- Add `byebug` to the line you want to test
+- Add `binding.pry` to the line you want to test
 
 ```ruby
+require 'pry'
+...
 def create_controller
-  byebug
+  binding.pry
   template "controller.rb", File.join("app/controllers", class_path.join("/"), "#{file_name}_controller.rb")
 end
 ```
@@ -221,20 +224,15 @@ rails g hmvc_rails admin
 ```
 
 ```
-[31, 40] in /Users/tms/Projects/hmvc-rails/lib/generators/hmvc_rails/hmvc_rails_generator.rb
-   31:     validate_skip_view_option
-   32:   end
-   33:
-   34:   def create_controller
-   35:     byebug
-=> 36:     template "controller.rb", File.join("app/controllers", class_path.join("/"), "#{file_name}_controller.rb")
-   37:   end
-   38:
-   39:   def create_operation
-   40:     options[:action].each do |action|
-(byebug) options[:action]
-["index", "show", "new", "create", "edit", "update", "destroy"]
-(byebug)
+   37: def create_controller
+=> 38:   binding.pry
+   39:   template "controllers/controller.rb",
+   40:            File.join("app/controllers", class_path.join("/"), "#{file_name}_controller.rb")
+   41: end
+
+[1] pry(#<HmvcRailsGenerator>)> options[:action]
+=> ["index", "show", "new", "create", "edit", "update", "destroy"]
+[2] pry(#<HmvcRailsGenerator>)>
 ```
 
 - Code convention check
@@ -251,14 +249,14 @@ Inspecting 14 files
 
 ```
 ➜  hmvc-rails git:(main) ✗ rake test
-Run options: --seed 47420
+Run options: --seed 9122
 
 # Running:
 
 .............
 
-Finished in 0.619135s, 20.9970 runs/s, 206.7400 assertions/s.
-13 runs, 128 assertions, 0 failures, 0 errors, 0 skips
+Finished in 0.721364s, 18.0214 runs/s, 166.3515 assertions/s.
+13 runs, 120 assertions, 0 failures, 0 errors, 0 skips
 ```
 
 ## Configure rubocop

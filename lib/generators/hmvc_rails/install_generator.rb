@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "rails"
 require "rails/generators"
 
 module HmvcRails
@@ -12,15 +13,17 @@ module HmvcRails
       source_root File.expand_path("templates", __dir__)
 
       def generate
-        copy_initializers_config
+        copy_configuration
         copy_application_operator
         copy_application_form
+        copy_validator
         copy_api_error_handler
+        add_config_api_error_handler
       end
 
       private
 
-      def copy_initializers_config
+      def copy_configuration
         file_selected = options[:api] ? "configures/hmvc_rails_api.rb" : "configures/hmvc_rails.rb"
         template file_selected, "config/initializers/hmvc_rails.rb"
       end
@@ -33,12 +36,32 @@ module HmvcRails
         template "forms/application_form.rb", "app/forms/application_form.rb"
       end
 
+      def copy_validator
+        template "validators/uniqueness_validator.rb", "app/validators/uniqueness_validator.rb"
+        template "validators/email_validator.rb", "app/validators/email_validator.rb"
+      end
+
       def copy_api_error_handler
         return unless options[:api]
 
-        template "errors/exception.rb", "lib/error_handler/exception.rb"
-        template "errors/error_resource.rb", "lib/error_handler/error_resource.rb"
-        template "errors/error_response.rb", "lib/error_handler/error_response.rb"
+        template "extras/exception.rb", "lib/hmvc_rails/extras/exception.rb"
+        template "extras/error_resource.rb", "lib/hmvc_rails/extras/error_resource.rb"
+        template "extras/error_response.rb", "lib/hmvc_rails/extras/error_response.rb"
+      end
+
+      def add_config_api_error_handler
+        return if Rails.root.blank? || !options[:api] || behavior == :revoke
+
+        file_path = Rails.root.join("config", "application.rb")
+        inject_into_file file_path, after: "class Application < Rails::Application\n" do
+          "    # This setting to use the error handler of hmvc-rails
+    config.eager_load_paths << Rails.root.join('lib', 'hmvc_rails')\n\n"
+        end
+
+        file_path = Rails.root.join("app", "controllers", "application_controller.rb")
+        inject_into_file file_path, after: "ApplicationController < ActionController::API\n" do
+          "  include Extras::ErrorResponse\n"
+        end
       end
 
       def add_file_traces

@@ -23,6 +23,8 @@ class TestInstallGenerator < Rails::Generators::TestCase
     assert_file "config/initializers/hmvc_rails.rb"
     assert_file "app/operations/application_operation.rb"
     assert_file "app/forms/application_form.rb"
+    assert_file "app/validators/uniqueness_validator.rb"
+    assert_file "app/validators/email_validator.rb"
   end
 
   def test_api_install_generator
@@ -31,8 +33,10 @@ class TestInstallGenerator < Rails::Generators::TestCase
     assert_file "config/initializers/hmvc_rails.rb"
     assert_file "app/operations/application_operation.rb"
     assert_file "app/forms/application_form.rb"
-    assert_file "lib/error_handler/exception.rb"
-    assert_file "lib/error_handler/error_resource.rb"
-    assert_file "lib/error_handler/error_response.rb"
+    assert_file "app/validators/uniqueness_validator.rb"
+    assert_file "app/validators/email_validator.rb"
+    assert_file "lib/hmvc_rails/extras/exception.rb"
+    assert_file "lib/hmvc_rails/extras/error_resource.rb"
+    assert_file "lib/hmvc_rails/extras/error_response.rb"
   end
 end

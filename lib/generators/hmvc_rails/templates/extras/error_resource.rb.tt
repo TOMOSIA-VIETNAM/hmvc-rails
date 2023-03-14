@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 <%= add_file_traces %>
-module ErrorHandler
+module Extras
   class ErrorResource
     include Exception
 

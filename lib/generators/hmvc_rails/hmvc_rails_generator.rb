@@ -22,6 +22,8 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
   private
 
   def validate_options
+    return if behavior == :revoke
+
     validate_name
     validate_params
     validate_form_option
