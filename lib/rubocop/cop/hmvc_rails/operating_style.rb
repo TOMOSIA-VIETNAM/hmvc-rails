@@ -15,7 +15,7 @@ module RuboCop
           return unless node.children.first == :call
 
           node.body.to_a.compact.each do |ast|
-            next if ast.is_a?(Symbol) && (ast.to_s.start_with?("step_") || ats.to_s == "super")
+            next if ast.is_a?(Symbol) && (ast.to_s.start_with?("step_") || ast.to_s == "super")
 
             next if ast.is_a?(RuboCop::AST::SendNode) &&
                     (ast.children.last.to_s.start_with?("step_") || ast.children.last.to_s == "super")
