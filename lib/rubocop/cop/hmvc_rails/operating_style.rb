@@ -15,13 +15,34 @@ module RuboCop
           return unless node.children.first == :call
 
           node.body.to_a.compact.each do |ast|
-            next if ast.is_a?(Symbol) && (ast.to_s.start_with?("step_") || ast.to_s == "super")
+            next if special_node?(ast.class)
 
-            next if ast.is_a?(RuboCop::AST::SendNode) &&
-                    (ast.children.last.to_s.start_with?("step_") || ast.children.last.to_s == "super")
+            next if ast.is_a?(Symbol) && valid?(ast.to_s)
+
+            next if ast.is_a?(RuboCop::AST::SendNode) && valid?(ast.children.last.to_s)
 
             add_offense(node, message: "Method works in \"call\" without prefix \"step_\"")
           end
+        end
+
+        private
+
+        def special_node?(node_name)
+          [
+            RuboCop::AST::Node,
+            RuboCop::AST::IfNode,
+            RuboCop::AST::IntNode,
+            RuboCop::AST::ArgsNode,
+            RuboCop::AST::BlockNode,
+            RuboCop::AST::YieldNode,
+            RuboCop::AST::SuperNode,
+            RuboCop::AST::ReturnNode,
+            RuboCop::AST::ResbodyNode
+          ].include?(node_name)
+        end
+
+        def valid?(text)
+          %w[step_ transaction].any? { |keyword| text.start_with?(keyword) }
         end
       end
     end

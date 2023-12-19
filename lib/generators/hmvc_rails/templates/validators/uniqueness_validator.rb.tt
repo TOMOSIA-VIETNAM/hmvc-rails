@@ -7,6 +7,7 @@ class UniquenessValidator < ActiveModel::EachValidator
     @klass = options[:model] if options[:model]
   end
 
+  # rubocop:disable Metrics/AbcSize
   def validate_each(record, attribute)
     record_org    = record
     attribute_org = attribute
@@ -26,4 +27,5 @@ class UniquenessValidator < ActiveModel::EachValidator
 
     record_org.errors.add(attribute_org, :taken) if record
   end
+  # rubocop:enable Metrics/AbcSize
 end

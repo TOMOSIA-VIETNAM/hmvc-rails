@@ -50,7 +50,7 @@ module Extras
 
     class Conflict < StandardError; end
 
-    class UnprocessableEntity < ActiveRecord::RecordInvalid; end
+    class UnprocessableEntity < StandardError; end
 
     class InternalServerError < StandardError; end
 

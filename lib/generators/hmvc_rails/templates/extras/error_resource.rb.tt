@@ -23,8 +23,8 @@ module Extras
     private
 
     def field_errors
-      JSON.parse(message).map do |field, messages|
-        messages.map { |message_detail| { name: field, message: message_detail } }
+      JSON.parse(message).map do |messages|
+        messages.map { |field, message_detail| { name: field, message: message_detail } }
       end.flatten
     end
   end
