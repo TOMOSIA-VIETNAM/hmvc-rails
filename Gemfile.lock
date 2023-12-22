@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hmvc-rails (1.0.2)
+    hmvc-rails (1.0.3)
 
 GEM
   remote: https://rubygems.org/

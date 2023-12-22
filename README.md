@@ -19,7 +19,7 @@
 Add this line to your application's Gemfile
 
 ```ruby
-gem 'hmvc-rails', '1.0.2', group: :development
+gem 'hmvc-rails', '1.0.3', group: :development
 ```
 
 Then execute
@@ -69,10 +69,22 @@ insert  app/controllers/application_controller.rb
 rails g hmvc_rails controller_name
 ```
 
+### Short command
+
+```
+hmvc controller_name
+```
+
 Example
 
 ```
 rails g hmvc_rails admin
+
+---
+
+OR
+
+hmvc admin
 ```
 
 ```
@@ -94,7 +106,7 @@ create  app/views/admin/new.html.erb
 create  app/views/admin/edit.html.erb
 ```
 
-### Options
+### Options (You can also use short command too)
 
 ##### 1. If you want to create with action other than default. You can use option `--action`
 
@@ -175,6 +187,8 @@ If you want to rollback the hmvc-rails generator. You can run command
 ```
 rails d hmvc_rails controller_name
 ```
+
+- - -
 
 ## Test and debug gem on development environment
 

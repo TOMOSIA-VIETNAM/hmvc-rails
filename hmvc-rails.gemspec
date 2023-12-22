@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     end
   end
 
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+  spec.executables << "hmvc"
   spec.require_paths = ["lib"]
 end
