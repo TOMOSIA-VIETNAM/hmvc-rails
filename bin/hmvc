@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "#{Dir.pwd}/config/environment"
 require "hmvc/rails"
 require_relative "../lib/generators/hmvc_rails/hmvc_rails_generator"
 
+Hmvc::Rails.configuration
 HmvcRailsGenerator.start(ARGV)

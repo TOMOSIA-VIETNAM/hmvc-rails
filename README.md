@@ -19,7 +19,9 @@
 Add this line to your application's Gemfile
 
 ```ruby
-gem 'hmvc-rails', '1.0.3', group: :development
+group :development do
+  gem 'hmvc-rails'
+end
 ```
 
 Then execute
