@@ -76,9 +76,6 @@ module HmvcRails
       end
       # rubocop:enable Layout/LineLength
 
-      def add_file_traces
-        "# Created at: #{Time.now.strftime("%Y-%m-%d %H:%M %z")}\n# Creator: #{`git config user.email`}"
-      end
     end
   end
 end

@@ -19,7 +19,7 @@ module Hmvc
     end
 
     class Configuration
-      attr_accessor :parent_controller, :action, :view, :form, :parent_form, :parent_operation, :file_traces
+      attr_accessor :parent_controller, :action, :view, :form, :parent_form, :parent_operation
 
       def initialize
         @parent_controller = "ApplicationController"
@@ -28,7 +28,6 @@ module Hmvc
         @form = %w[new create edit update]
         @parent_form = "ApplicationForm"
         @parent_operation = "ApplicationOperation"
-        @file_traces = true
       end
     end
   end
