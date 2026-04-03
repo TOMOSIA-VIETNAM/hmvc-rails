@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-<%= add_file_traces %>
 module Extras
   module Exception
     BAD_REQUEST           = { status: 400, code: :bad_request }.freeze

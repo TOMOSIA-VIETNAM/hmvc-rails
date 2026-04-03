@@ -12,7 +12,6 @@
 - Generate operations file
 - Generate forms file
 - Generate views file
-- Add file creator and creation date
 
 ## Installation
 
@@ -153,9 +152,6 @@ _config/initializers/hmvc.rb_
 ```ruby
 # frozen_string_literal: true
 
-# Created at: 2023-02-18 22:30 +0700
-# Creator: thuc.phan@tomosia.com
-
 if Rails.env.development?
   Hmvc::Rails.configure do |config|
     # The controller files's parent class of controller. Default is ApplicationController
@@ -176,8 +172,6 @@ if Rails.env.development?
     # The operation files's parent class. Default is ApplicationOperation
     # config.parent_operation = "ApplicationOperation"
 
-    # Save author name and timestamp to file. Default is true
-    # config.file_traces = true
   end
 end
 ```

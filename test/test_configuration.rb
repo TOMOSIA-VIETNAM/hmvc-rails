@@ -13,6 +13,5 @@ class TestConfiguration < Minitest::Test
     assert_equal %w[new create edit update], configuration.form
     assert_equal "ApplicationForm", configuration.parent_form
     assert_equal "ApplicationOperation", configuration.parent_operation
-    assert_equal true, configuration.file_traces
   end
 end

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-<%= add_file_traces %>
 class <%= class_name %>Controller < <%= options[:parent_controller] %><% options[:action].each do |action| %>
   <%= path_notes(action) %>
   def <%= action %>

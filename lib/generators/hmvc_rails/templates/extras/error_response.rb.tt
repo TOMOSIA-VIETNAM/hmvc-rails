@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-<%= add_file_traces %>
 module Extras
   module ErrorResponse
     extend ActiveSupport::Concern

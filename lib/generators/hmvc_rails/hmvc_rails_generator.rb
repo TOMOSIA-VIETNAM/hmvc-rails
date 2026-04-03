@@ -147,9 +147,4 @@ class HmvcRailsGenerator < Rails::Generators::NamedBase
     end
   end
 
-  def add_file_traces
-    return unless Hmvc::Rails.configuration.file_traces
-
-    "# Created at: #{Time.now.strftime("%Y-%m-%d %H:%M %z")}\n# Creator: #{`git config user.email`}"
-  end
 end
